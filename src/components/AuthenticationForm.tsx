@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, Input, FormErrorMessage, Button, Center, VStack, Heading, CenterProps } from '@chakra-ui/react';
+import { FormControl, Input, FormErrorMessage, Button, Center, VStack, Heading, CenterProps, ButtonGroup } from '@chakra-ui/react';
 import { Field, FieldAttributes, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useLocalStorage } from 'usehooks-ts';
@@ -12,8 +12,10 @@ const AuthSchema = Yup.object().shape({
 
 export interface AuthenticationFormProps extends Pick<CenterProps, 'h'> {}
 
+const NO_USER = { username: '', jobTitle: '' };
+
 const AuthenticationForm: React.FC<AuthenticationFormProps> = props => {
-  const [user, setUser] = useLocalStorage(AUTH_LOCAL_STORAGE_KEY, { username: '', jobTitle: '' });
+  const [user, setUser] = useLocalStorage(AUTH_LOCAL_STORAGE_KEY, NO_USER);
 
   return (
     <Center padding="4" {...props}>
@@ -30,9 +32,7 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = props => {
           <Form>
             <VStack gap={4}>
               <Heading as="h6" size="xs">
-                {user.username ? `Update your profile below.` : 'Please fill' +
-                  ' in the details to' +
-                  ' access the app.'}
+                {user.username ? `Update your profile below.` : 'Please fill' + ' in the details to' + ' access the app.'}
               </Heading>
               <Field name="username">
                 {({ field, form }: FieldAttributes<any>) => (
@@ -50,9 +50,16 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = props => {
                   </FormControl>
                 )}
               </Field>
-              <Button colorScheme="teal" isLoading={props.isSubmitting} type="submit">
-                Submit
-              </Button>
+              <ButtonGroup>
+                <Button colorScheme="teal" isLoading={props.isSubmitting} type="submit">
+                  Update
+                </Button>
+                {(user.username || user.jobTitle) && (
+                  <Button variant="outline" colorScheme="red" onClick={() => setUser(NO_USER)}>
+                    Logout
+                  </Button>
+                )}
+              </ButtonGroup>
             </VStack>
           </Form>
         )}

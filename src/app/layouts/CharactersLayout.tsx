@@ -18,8 +18,8 @@ const CharactersLayout: React.FC<CharactersLayoutsProps> = ({ page = 1 }) => {
     <>
       <Flex minWidth="max-content" alignItems="center" gap="2">
         <Box p="2">
-          <Link href="/" color="teal.500">
-            <Heading size="md">The Rick and Morty Characters</Heading>
+          <Link href="/">
+            <Heading size="md" color="green.700">The Rick and Morty Characters</Heading>
           </Link>
         </Box>
         <Spacer />
