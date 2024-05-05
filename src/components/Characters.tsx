@@ -5,7 +5,7 @@ import { useQuery, gql } from '@apollo/client';
 import { ICharacter } from '@/interfaces/Character';
 import Character from '@/components/Character';
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, notFound } from 'next/navigation';
 
 const GET_CHARACTERS = gql`
   query Characters($page: Int!) {
@@ -42,7 +42,7 @@ interface CharactersProps {
 }
 
 const Characters: React.FC<CharactersProps> = ({ page = 1 }) => {
-  const { loading, data } = useQuery(GET_CHARACTERS, {
+  const { loading, data, error } = useQuery(GET_CHARACTERS, {
     variables: { page },
   });
   const router = useRouter();
@@ -51,10 +51,16 @@ const Characters: React.FC<CharactersProps> = ({ page = 1 }) => {
 
   if (loading) return <Center>Loading...</Center>;
 
+  if (error) return notFound();
+
+  if (!data?.characters?.results?.length) return <Center p={8}>No results found</Center>;
+
   return (
     <>
       <Flex flexWrap="wrap" gap={6} pt={8} alignItems="center" justifyContent="center">
-        {data?.characters?.results.map((props: ICharacter) => <Character key={props.id} {...props} />)}
+        {data.characters.results.map((props: ICharacter) => (
+          <Character key={props.id} {...props} />
+        ))}
       </Flex>
       <Box position="relative" h="100px" width="100%">
         <AbsoluteCenter p="4" color="white" axis="both">

@@ -14,12 +14,16 @@ interface CharactersLayoutsProps {
 const CharactersLayout: React.FC<CharactersLayoutsProps> = ({ page = 1 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const pageTitle = Number.isNaN(page) ? '' : `Information Page ${page}`;
+
   return (
     <>
       <Flex minWidth="max-content" alignItems="center" gap="2">
         <Box p="2">
           <Link href="/">
-            <Heading size="md" color="green.700">The Rick and Morty Characters</Heading>
+            <Heading size="md" color="green.700">
+              The Rick and Morty Characters
+            </Heading>
           </Link>
         </Box>
         <Spacer />
@@ -29,7 +33,7 @@ const CharactersLayout: React.FC<CharactersLayoutsProps> = ({ page = 1 }) => {
       </Flex>
       <VStack p={4} align="stretch">
         <Heading size="lg" textAlign="center">
-          Information Page {page}
+          {pageTitle}
         </Heading>
         <Characters page={page} />
       </VStack>
