@@ -1,6 +1,6 @@
 'use client';
 
-import { AbsoluteCenter, Box, Button, ButtonGroup, Center } from '@chakra-ui/react';
+import { AbsoluteCenter, Box, Button, ButtonGroup, Center, Flex, Skeleton } from '@chakra-ui/react';
 import { useQuery, gql } from '@apollo/client';
 import { ICharacter } from '@/interfaces/Character';
 import Character from '@/components/Character';
@@ -22,6 +22,7 @@ const GET_CHARACTERS = gql`
         image
         created
         species
+        status
         gender
         location {
           id
@@ -52,7 +53,9 @@ const Characters: React.FC<CharactersProps> = ({ page = 1 }) => {
 
   return (
     <>
-      {data?.characters?.results.map((props: ICharacter) => <Character key={props.id} {...props} />)}
+      <Flex flexWrap="wrap" gap={6} pt={8} alignItems="center" justifyContent="center">
+        {data?.characters?.results.map((props: ICharacter) => <Character key={props.id} {...props} />)}
+      </Flex>
       <Box position="relative" h="100px" width="100%">
         <AbsoluteCenter p="4" color="white" axis="both">
           <ButtonGroup spacing={4}>

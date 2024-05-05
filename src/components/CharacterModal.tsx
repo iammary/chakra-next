@@ -4,7 +4,7 @@ import { ICharacter } from '@/interfaces/Character';
 
 interface CharacterModalProps extends Pick<ModalProps, 'isOpen' | 'onClose'>, ICharacter {}
 
-const CharacterModal: React.FC<CharacterModalProps> = ({ isOpen, onClose, name, image, location, episode, gender, species }) => {
+const CharacterModal: React.FC<CharacterModalProps> = ({ isOpen, onClose, name, image, location, episode, gender, species, status }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -13,8 +13,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({ isOpen, onClose, name, 
         <ModalBody p={8}>
           <VStack spacing={4} align="stretch">
             <Image margin="0 auto" borderRadius="lg" width={{ md: 40 }} src={image} alt={name} />
-            <Text textAlign="center" textTransform="uppercase" color="teal.600" letterSpacing="wide" fontWeight="bold">
-              {name}
+            <Text textAlign="center" textTransform="uppercase" color={gender === 'Male' ? 'teal.600' : 'pink.600'} letterSpacing="wide" fontWeight="bold">
+              {name} ({species})
             </Text>
             <VStack spacing={1} align="stretch">
               <Text fontSize="sm">
@@ -22,6 +22,12 @@ const CharacterModal: React.FC<CharacterModalProps> = ({ isOpen, onClose, name, 
                   Location:{' '}
                 </Text>
                 {location.name}
+              </Text>
+              <Text fontSize="sm">
+                <Text as="span" textTransform="uppercase" fontWeight="bold">
+                  Status:{' '}
+                </Text>
+                {status}
               </Text>
               <Text fontSize="sm">
                 <Text as="span" textTransform="uppercase" fontWeight="bold">
@@ -34,12 +40,6 @@ const CharacterModal: React.FC<CharacterModalProps> = ({ isOpen, onClose, name, 
                   Gender:{' '}
                 </Text>
                 {gender}
-              </Text>
-              <Text fontSize="sm">
-                <Text as="span" textTransform="uppercase" fontWeight="bold">
-                  Species:{' '}
-                </Text>
-                {species}
               </Text>
             </VStack>
           </VStack>

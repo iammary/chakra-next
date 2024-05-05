@@ -9,4 +9,5 @@ export interface ICharacter extends BaseType {
   episode: BaseType[];
   species?: string;
   gender?: string;
+  status?: 'Alive' | 'Dead' | 'unknown';
 }
