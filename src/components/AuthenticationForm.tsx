@@ -17,6 +17,8 @@ const NO_USER = { username: '', jobTitle: '' };
 const AuthenticationForm: React.FC<AuthenticationFormProps> = props => {
   const [user, setUser] = useLocalStorage(AUTH_LOCAL_STORAGE_KEY, NO_USER);
 
+  const isExisting = user.username && user.jobTitle;
+
   return (
     <Center padding="4" {...props}>
       <Formik
@@ -52,9 +54,9 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = props => {
               </Field>
               <ButtonGroup>
                 <Button colorScheme="teal" isLoading={props.isSubmitting} type="submit">
-                  Update
+                  {isExisting ? 'Update' : 'Submit'}
                 </Button>
-                {(user.username || user.jobTitle) && (
+                {isExisting && (
                   <Button variant="outline" colorScheme="red" onClick={() => setUser(NO_USER)}>
                     Logout
                   </Button>
